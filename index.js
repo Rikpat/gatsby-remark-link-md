@@ -31,7 +31,7 @@ module.exports = (
           }: File ${parent.relativePath}: ${
             link.url
           } is pointing to nonexistent markdown file resolved to ${path.relative(
-            rootDir,
+            process.cwd(),
             linkPath
           )}`
         );
