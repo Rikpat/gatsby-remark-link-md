@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "unist-util-visit": "^2.0.0",
+    "is-relative-url": "^3.0.0"
+  },
+  "deprecated": false,
+  "description": "Fixes relative links between markdown pages in Gatsby",
+  "keywords": [
+    "remark",
+    "relative",
+    "link",
+    "gatsby"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "gatsby-remark-link-md",
+  "version": "0.1.0"
+}
