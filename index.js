@@ -1,5 +1,4 @@
 const visit = require(`unist-util-visit`);
-const isRelativeUrl = require(`is-relative-url`);
 const path = require(`path`);
 
 module.exports = (
@@ -9,10 +8,11 @@ module.exports = (
   const options = { include: [`md`, `mdx`], ...pluginOptions };
   const parent = getNode(markdownNode.parent);
   const visitor = (link) => {
-    if (isRelativeUrl(link.url) && parent.internal.type === `File`) {
-      const linkPath = link.url.startsWith("/")
-        ? path.posix.join(process.cwd(), link.url)
-        : path.posix.join(parent.dir, link.url);
+    if (!new RegExp('^(?:[a-z]+:)?//', 'i').test(link.url)) {
+      let url = link.url.replace(/\\/g, '/')
+      let linkPath = url.startsWith("/")
+        ? path.posix.join(process.cwd(), url)
+        : path.posix.join(parent.dir, url);
       const linkNode = files.find(
         (file) => file && file.absolutePath && file.absolutePath === linkPath
       );
@@ -30,7 +30,7 @@ module.exports = (
             markdownNode.fields && markdownNode.fields.sourceInstanceName
           }: File ${parent.relativePath}: ${
             link.url
-          } is pointing to nonexistent markdown file resolved to ${path.relative(
+          } is pointing to nonexistent markdown file resolved to ${path.posix.relative(
             process.cwd(),
             linkPath
           )}`
